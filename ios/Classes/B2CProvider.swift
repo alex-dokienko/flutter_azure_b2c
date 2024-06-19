@@ -308,7 +308,11 @@ class B2CProvider {
     private func setHostAndTenantFromAuthority(tag: String, authority: MSALAuthority) {
         let parts = authority.url.absoluteString.split(usingRegex: "https://|/")
         hostName = parts[1]
-        tenantName = parts[3]
+        if authority.url.absoluteString.contains("/tfp/") {
+            tenantName = parts[3]
+        } else {
+            tenantName = parts[2]
+        }
         print("B2CProvider [\(tag)] host: \(hostName ?? "nil"), tenant: \(tenantName ?? "nil")")
     }
     
